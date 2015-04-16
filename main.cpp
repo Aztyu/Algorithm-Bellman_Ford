@@ -20,6 +20,8 @@ int main(int argc, char** argv) {
 
     int nbre_lettre = 0;
     int depart = 1;     //On demarre de la premiere lettre : A
+    int ligne = 1;
+    int step = 1;
     
     cout << "Rentrez la taille de la matrice" << endl;
     cin >> nbre_lettre;
@@ -44,12 +46,14 @@ int main(int argc, char** argv) {
     
     while(hasChanged){
         hasChanged = false;
+        cout << "Etape " << step << endl;
+        step++;
         for(map<int, int>::iterator it_x = dist.begin(); it_x != dist.end(); it_x++){
             for(map<int, int>::iterator it_y = dist.begin(); it_y != dist.end(); it_y++){
                 if((*it_y).first != (*it_x).first){
                     //Tri des successeurs du point
                     if(matrix.GetValue((*it_x).first, (*it_y).first) != 0 && matrix.GetValue((*it_x).first, (*it_y).first) != 100){ //Si c'est un sucesseur du point
-                        cout << (*it_x).first << "." << (*it_x).second << "." << (*it_y).first << "." << (*it_y).second << endl; 
+                        //cout << (*it_x).first << "." << (*it_x).second << "." << (*it_y).first << "." << (*it_y).second << endl; 
                         if(dist[(*it_y).first] > dist[(*it_x).first] + matrix.GetValue((*it_x).first, (*it_y).first)){
                             (*it_y).second = dist[(*it_x).first] + matrix.GetValue((*it_x).first, (*it_y).first);
                             pred[(*it_y).first] = (*it_x).first;
@@ -58,7 +62,29 @@ int main(int argc, char** argv) {
                     }
                 }
             }
+            cout << "Lettre = " << IntToLetter((*it_x).first);
+            ligne++;
+            cout << endl;
+        
+            cout << "Lettresss";
+            for(map<int, int>::iterator it = dist.begin(); it != dist.end(); it++){
+                cout << " | " << IntToLetter((*it).first) << " | ";
+            }
+            cout << endl;
+            cout << "Distances";
+            for(map<int, int>::iterator it = dist.begin(); it != dist.end(); it++){
+                cout << " | " << (*it).second << " | ";
+            }
+            cout << endl;
+            cout << "Predecess";
+            for(map<int, int>::iterator it = pred.begin(); it != pred.end(); it++){
+                cout << " | " << IntToLetter((*it).second) << " | ";
+            }
+            cout << endl << endl;
         }
+        
+        
+        
     }
     
     for(map<int, int>::iterator it = dist.begin(); it != dist.end(); it++){ //Affichage des distances
@@ -70,7 +96,7 @@ int main(int argc, char** argv) {
         cout << IntToLetter((*it).first) << ":" << IntToLetter((*it).second) << endl;
     }
     
-    cout << "Appuyer sur n'importe quelle touche pour terminer" << endl;
+    cout << "Appuyer sur Entree pour terminer" << endl;
     cin.get();
     cin.get();
     return 0;
